@@ -34,11 +34,14 @@ namespace rotator
                 //Log(arg);
                 try
                 {
-                    var filepath = Path.GetFileNameWithoutExtension(arg);
+                    Console.WriteLine(arg);
+                    var filenamenoext = Path.GetFileNameWithoutExtension(arg);
+                    var filename = Path.GetFileName(arg);
+                    var fullnewpathfile = arg.Replace(filename, filenamenoext);
                     //var filepath = @"H:\AfterSSDDownloads\asd";
                     var proc = new Process();
-                    proc.StartInfo.FileName = "ffmpeg.exe";
-                    proc.StartInfo.Arguments = $"-i \"{filepath}.mp4\" -metadata:s:v rotate={rotate} -codec copy \"{filepath}-fv.mp4\"";
+                    proc.StartInfo.FileName = "C:\\Program Files (x86)\\ffmpeg.exe";
+                    proc.StartInfo.Arguments = $"-i \"{arg}\" -metadata:s:v rotate={rotate} -codec copy \"{fullnewpathfile}-fv.mp4\"";
                     proc.Start();
                     proc.WaitForExit();
                     var exitCode = proc.ExitCode;
@@ -48,6 +51,7 @@ namespace rotator
                 catch (Exception exc)
                 {
                     Log(exc.ToString());
+                    Console.ReadKey();
                 }
             }
             return;
